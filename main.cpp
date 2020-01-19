@@ -48,7 +48,7 @@ struct CarWash            //1) a U.D.T. with a random number of member variables
 };
 
 
-//
+//1
 
 struct House 
 {
@@ -62,7 +62,7 @@ struct House
     double estimatedMortgagePayment( double interestRate, unsigned int term, double downpaymentUsd );
 };
 
-// 
+// 2
 
 struct Job
 {
@@ -82,7 +82,7 @@ struct Job
     EmployeeBenefits employeeBenefits;
 };
 
-// 
+// 3
 
 struct Song 
 {
@@ -113,7 +113,7 @@ struct Song
     KeySignature keySignature;
 };
 
-// 
+// 4
 
 struct Circle
 {
@@ -124,7 +124,7 @@ struct Circle
     double getArea();
 };
 
-// 
+// 5
 
 struct Airplane
 {
@@ -147,7 +147,7 @@ struct Airplane
     // Would do more with the 'Passenger' type here, maybe with an array but I'm new to C++ and don't know syntax / best practice for initializing etc.
 };
 
-//
+//6
 
 struct Bicycle
 {
@@ -164,7 +164,7 @@ struct Bicycle
     BicycleType type;
 };
 
-// 
+// 7
 
 struct Keyboard
 {
@@ -175,7 +175,7 @@ struct Keyboard
     bool hasOnboardEffects = true;
 };
 
-// 
+// 8
 
 struct Television
 {
