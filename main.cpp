@@ -48,45 +48,147 @@ struct CarWash            //1) a U.D.T. with a random number of member variables
 };
 
 
-/*
- 1)
- */
+//1
 
-/*
- 2)
- */
+struct House 
+{
+    unsigned int numberOfBedrooms = 3;
+    unsigned int numberOfBathrooms = 2;
+    unsigned int totalSquareFootage = 2000;
+    double currentMarketValueUsd = 250000.00;
+    bool hasGarage = true;
+    bool availableForRent = false;
 
-/*
- 3)
- */
+    double estimatedMortgagePayment( double interestRate, unsigned int term, double downpaymentUsd );
+};
 
-/*
- 4)
- */
+// 2
 
-/*
- 5)
- */
+struct Job
+{
+    double startingSalaryUsd = 70000.00;
+    bool canWorkRemotely = false;
+    
+    struct EmployeeBenefits
+    {
+        bool healthCare = true;
+        bool dentalCare = true;
+        bool companyCar = false;
+        bool lifeInsurance = false;
+    };
 
-/*
- 6)
- */
+    double monetaryValueOfBenefits( EmployeeBenefits benefits );
 
-/*
- 7)
- */
+    EmployeeBenefits employeeBenefits;
+};
 
-/*
- 8)
- */
+// 3
 
-/*
- 9)
- */
+struct Song 
+{
+    struct Tempo
+    {
+        unsigned int BPM = 120;
 
-/*
- 10)
- */
+        void updateTempo( unsigned int newTempo );
+    };
+
+    struct TimeSignature
+    {
+        unsigned int topNumber = 4;
+        unsigned int bottomNumber = 4;
+        bool isCompund = false;
+    };
+
+    struct KeySignature
+    {
+        unsigned int numberSharps = 1;
+        unsigned int numberFlats = 0;
+
+        unsigned int positionInCircleOfFifths();
+    };   
+
+    Tempo tempo;  // Only UDTs as member variables.
+    TimeSignature timeSignature;
+    KeySignature keySignature;
+};
+
+// 4
+
+struct Circle
+{
+    double radius = 10.0;
+    double diameter = radius * 2.0;
+
+    double getCircumference();
+    double getArea();
+};
+
+// 5
+
+struct Airplane
+{
+    unsigned int passengerCapactity = 200;
+    double maxTakeoffWeightKg = 80000.0;
+    bool isCommercialAirliner = true;
+
+    double maxDistanceAtMaxWeight();
+    double weightAllowedPerPassenger();
+
+    struct Passenger
+    {
+        double weightLbs = 175.4;
+        double weightOfLuggageLbs = 200.0;
+        unsigned int numberOfBags = 2;
+
+        double totalWeightWithLuggageLbs();
+    };
+
+    // Would do more with the 'Passenger' type here, maybe with an array but I'm new to C++ and don't know syntax / best practice for initializing etc.
+};
+
+//6
+
+struct Bicycle
+{
+    double weightKg = 7.9;
+    unsigned int size = 58; 
+
+    float recommendedTirePressure( float riderWeightInLBS , float maxTirePressure );
+
+    enum BicycleType // Is this OK? I realize it's not a class but it just made sense to me.
+    {
+        road, mountain, hybrid
+    };
+
+    BicycleType type;
+};
+
+// 7
+
+struct Keyboard
+{
+    unsigned int numberOfKeys = 73;
+    double totalWeightKg = 11.4;
+    bool isWeighted = true;
+    bool hasUSBOutput = true;
+    bool hasOnboardEffects = true;
+};
+
+// 8
+
+struct Television
+{
+    double totalWeightKg = 22.1;
+    double widthIn = 50.5;
+    double heightIn = 30.0;
+    bool isSmartTV = true;
+
+    double getScreenSize();
+};
+
+//
+
 
 #include <iostream>
 int main()
