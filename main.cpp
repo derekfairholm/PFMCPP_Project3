@@ -12,8 +12,51 @@ Create a branch named Part2
     You'll need to insert the Person struct from the video in the space below.
  */
 
+ struct Limb 
+{
+    void stepForward();
+    int stepSize();
+};
 
+void Limb::stepForward()
+{
 
+}
+
+int Limb::stepSize()
+{
+
+}
+
+struct Person 
+{
+    int age;
+    int height;
+    float hairLength;
+    float GPA;
+    unsigned int SATScore;
+    int distanceTraveled;
+
+    Limb rightFoot;
+    Limb leftFoot;
+
+    void run( int , bool );
+};
+
+void Person::run( int howFast, bool startWithLeftFoot )
+{
+    if( startWithLeftFoot == true )
+    {
+        leftFoot.stepForward();
+        rightFoot.stepForward();
+    } else 
+    {
+        rightFoot.stepForward();
+        leftFoot.stepForward();
+    }
+
+    distanceTraveled += leftFoot.stepSize() + rightFoot.stepSize();
+}
 
 
  /*
@@ -45,6 +88,11 @@ struct House
     double estimatedMortgagePayment( double interestRate, unsigned int term, double downpaymentUsd );
 };
 
+double House::estimatedMortgagePayment( double interestRate, unsigned int term, double downpaymentUsd )
+{
+
+}
+
 // 2
 
 struct Job
@@ -64,6 +112,11 @@ struct Job
 
     EmployeeBenefits employeeBenefits;
 };
+
+double Job::monetaryValueOfBenefits( EmployeeBenefits benefits )
+{
+
+}
 
 // 3
 
@@ -96,6 +149,16 @@ struct Song
     KeySignature keySignature;
 };
 
+void Song::Tempo::updateTempo( unsigned int newTempo )
+{
+
+}
+
+unsigned int Song::KeySignature::positionInCircleOfFifths() 
+{
+
+}
+
 // 4
 
 struct Circle
@@ -106,6 +169,17 @@ struct Circle
     double getCircumference();
     double getArea();
 };
+
+double Circle::getCircumference()
+{
+
+}
+
+double Circle::getArea()
+{
+
+}
+
 
 // 5
 
@@ -130,6 +204,21 @@ struct Airplane
     // Would do more with the 'Passenger' type here, maybe with an array but I'm new to C++ and don't know syntax / best practice for initializing etc.
 };
 
+double Airplane::maxDistanceAtMaxWeight()
+{
+
+}
+
+double Airplane::weightAllowedPerPassenger()
+{
+
+}
+
+double Airplane::Passenger::totalWeightWithLuggageLbs()
+{
+
+}
+
 //6
 
 struct Bicycle
@@ -146,6 +235,11 @@ struct Bicycle
 
     BicycleType type;
 };
+
+float Bicycle::recommendedTirePressure( float riderWeightInLBS , float maxTirePressure )
+{
+
+}
 
 // 7
 
@@ -169,6 +263,13 @@ struct Television
 
     double getScreenSize();
 };
+
+double Television::getScreenSize()
+{
+
+}
+
+
 
 //
 
