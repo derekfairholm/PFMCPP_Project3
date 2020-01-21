@@ -12,20 +12,18 @@ Create a branch named Part2
     You'll need to insert the Person struct from the video in the space below.
  */
 
+ #include <cmath>
+
  struct Limb 
 {
-    void stepForward();
-    int stepSize();
+    int stepForward();
 };
 
-void Limb::stepForward()
+int Limb::stepForward()
 {
+    int amountForward = 1;
 
-}
-
-int Limb::stepSize()
-{
-
+    return amountForward;
 }
 
 struct Person 
@@ -40,22 +38,16 @@ struct Person
     Limb rightFoot;
     Limb leftFoot;
 
-    void run( int , bool );
+    int run( bool );
 };
 
-void Person::run( int howFast, bool startWithLeftFoot )
+int Person::run( bool startWithLeftFoot )
 {
-    if( startWithLeftFoot == true )
+    if( startWithLeftFoot )
     {
-        leftFoot.stepForward();
-        rightFoot.stepForward();
-    } else 
-    {
-        rightFoot.stepForward();
-        leftFoot.stepForward();
-    }
-
-    distanceTraveled += leftFoot.stepSize() + rightFoot.stepSize();
+        return leftFoot.stepForward() + rightFoot.stepForward();
+    } 
+    return rightFoot.stepForward() + leftFoot.stepForward();
 }
 
 
@@ -85,12 +77,19 @@ struct House
     bool hasGarage = true;
     bool availableForRent = false;
 
-    double estimatedMortgagePayment( double interestRate, unsigned int term, double downpaymentUsd );
+    double estimatedMortgagePayment( double interestRate, double term, double downpaymentUsd );
 };
 
-double House::estimatedMortgagePayment( double interestRate, unsigned int term, double downpaymentUsd )
+double House::estimatedMortgagePayment( double interestRate, double term, double downpaymentUsd )
 {
+    double principalLoanAmount = currentMarketValueUsd - downpaymentUsd;
+    double monthlyInterestRate = interestRate / 12;
+    double totalNumberOfPayments = term * 12;
 
+    double blockOne = pow((monthlyInterestRate * (1 + monthlyInterestRate)), totalNumberOfPayments);
+    double blockTwo = (pow((1 + monthlyInterestRate), totalNumberOfPayments)) - 1;
+
+    return principalLoanAmount * (blockOne * blockTwo);
 }
 
 // 2
@@ -100,22 +99,25 @@ struct Job
     double startingSalaryUsd = 70000.00;
     bool canWorkRemotely = false;
     
-    struct EmployeeBenefits
+    struct EmployeeBenefit
     {
-        bool healthCare = true;
-        bool dentalCare = true;
-        bool companyCar = false;
-        bool lifeInsurance = false;
+        double monetaryValue;
+        bool isActiveBenefit;
     };
 
-    double monetaryValueOfBenefits( EmployeeBenefits benefits );
+    double monetaryValueOfBenefits( EmployeeBenefit benefits[] );
 
-    EmployeeBenefits employeeBenefits;
+    EmployeeBenefit employeeBenefit[3] = {};
 };
 
-double Job::monetaryValueOfBenefits( EmployeeBenefits benefits )
+double Job::monetaryValueOfBenefits( EmployeeBenefit benefits[] )
 {
+    double totalValue;
 
+    totalValue = benefits[0].monetaryValue + benefits[1].monetaryValue + benefits[0].monetaryValue;
+    // Here I would iterate through the 'benefits' array and call totalValue += benefit[i].monetaryValue after checking benefit[i].isActiveBenefit.
+
+    return totalValue;
 }
 
 // 3
@@ -149,6 +151,8 @@ struct Song
     KeySignature keySignature;
 };
 
+// I'm getting an error: 'error: use of non-static data member' when I try to implememnt these functions that are declared in nested UDTs. Not sure what the issue is.
+/*
 void Song::Tempo::updateTempo( unsigned int newTempo )
 {
 
@@ -158,6 +162,7 @@ unsigned int Song::KeySignature::positionInCircleOfFifths()
 {
 
 }
+*/
 
 // 4
 
@@ -172,12 +177,12 @@ struct Circle
 
 double Circle::getCircumference()
 {
-
+    return M_PI * diameter;
 }
 
 double Circle::getArea()
 {
-
+    return M_PI * (pow(radius, 2));
 }
 
 
@@ -185,11 +190,12 @@ double Circle::getArea()
 
 struct Airplane
 {
-    unsigned int passengerCapactity = 200;
+    double passengerCapactity = 200;
+    double numberOfPassengers;
     double maxTakeoffWeightKg = 80000.0;
+    double maxAllowableWeightForPassengers;
     bool isCommercialAirliner = true;
 
-    double maxDistanceAtMaxWeight();
     double weightAllowedPerPassenger();
 
     struct Passenger
@@ -198,25 +204,15 @@ struct Airplane
         double weightOfLuggageLbs = 200.0;
         unsigned int numberOfBags = 2;
 
-        double totalWeightWithLuggageLbs();
+        // double totalWeightWithLuggageLbs(); Same 'error: use of non-static data member' if I try to implement.
     };
 
     // Would do more with the 'Passenger' type here, maybe with an array but I'm new to C++ and don't know syntax / best practice for initializing etc.
 };
 
-double Airplane::maxDistanceAtMaxWeight()
-{
-
-}
-
 double Airplane::weightAllowedPerPassenger()
 {
-
-}
-
-double Airplane::Passenger::totalWeightWithLuggageLbs()
-{
-
+    return maxAllowableWeightForPassengers / numberOfPassengers;
 }
 
 //6
@@ -228,7 +224,7 @@ struct Bicycle
 
     float recommendedTirePressure( float riderWeightInLBS , float maxTirePressure );
 
-    enum BicycleType // Is this OK? I realize it's not a class but it just made sense to me.
+    enum BicycleType
     {
         road, mountain, hybrid
     };
@@ -238,7 +234,12 @@ struct Bicycle
 
 float Bicycle::recommendedTirePressure( float riderWeightInLBS , float maxTirePressure )
 {
+    if( riderWeightInLBS > 200 && maxTirePressure > 120 )
+    {
+        return 120;
+    }
 
+    return 100;
 }
 
 // 7
@@ -266,7 +267,7 @@ struct Television
 
 double Television::getScreenSize()
 {
-
+    return pow( widthIn, 2 ) + pow( heightIn, 2 );
 }
 
 
@@ -275,6 +276,7 @@ double Television::getScreenSize()
 
 
 #include <iostream>
+
 int main()
 {
     std::cout << "good to go!" << std::endl;
