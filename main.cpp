@@ -12,9 +12,9 @@ Create a branch named Part2
     You'll need to insert the Person struct from the video in the space below.
  */
 
- #include <cmath>
+#include <cmath>
 
- struct Limb 
+struct Limb 
 {
     int stepForward();
 };
@@ -151,8 +151,6 @@ struct Song
     KeySignature keySignature;
 };
 
-// I'm getting an error: 'error: use of non-static data member' when I try to implememnt these functions that are declared in nested UDTs. Not sure what the issue is.
-/*
 void Song::Tempo::updateTempo( unsigned int newTempo )
 {
 
@@ -160,9 +158,9 @@ void Song::Tempo::updateTempo( unsigned int newTempo )
 
 unsigned int Song::KeySignature::positionInCircleOfFifths() 
 {
-
+    return {};
 }
-*/
+
 
 // 4
 
@@ -204,7 +202,7 @@ struct Airplane
         double weightOfLuggageLbs = 200.0;
         unsigned int numberOfBags = 2;
 
-        // double totalWeightWithLuggageLbs(); Same 'error: use of non-static data member' if I try to implement.
+        double totalWeightWithLuggageLbs(); 
     };
 
     // Would do more with the 'Passenger' type here, maybe with an array but I'm new to C++ and don't know syntax / best practice for initializing etc.
@@ -232,7 +230,7 @@ struct Bicycle
     BicycleType type;
 };
 
-float Bicycle::recommendedTirePressure( float riderWeightInLBS , float maxTirePressure )
+float Bicycle::recommendedTirePressure( float riderWeightInLBS, float maxTirePressure )
 {
     if( riderWeightInLBS > 200 && maxTirePressure > 120 )
     {
