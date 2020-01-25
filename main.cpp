@@ -48,7 +48,7 @@ int main()
 }
 }
 
-//insert  into main() of user's repo.
+//insert into main() of user's repo.
 
 
 
@@ -114,9 +114,14 @@ struct Job
         }
     };
 
-    double monetaryValueOfBenefits( EmployeeBenefit benefits[] );
+    double monetaryValueOfBenefits()
+    {
+        double value = employeeBenefits[0].monetaryValue;
+        std::cout << "Value of benefits is: $" << value << std::endl;
+        return value;
+    }
 
-    EmployeeBenefit employeeBenefit[3] = {};
+    EmployeeBenefit employeeBenefits[1] = { EmployeeBenefit() };
 };
 
 // 3
@@ -129,7 +134,11 @@ struct Song
 
         Tempo() { BPM = 120; }
 
-        void updateTempo( unsigned int newTempo ) { BPM = newTempo; }
+        void updateTempo( unsigned int newTempo ) 
+        { 
+            BPM = newTempo; 
+            std::cout << "New tempo is: " << newTempo << " BPM" << std::endl; 
+        }
     };
 
     struct TimeSignature
@@ -157,20 +166,20 @@ struct Song
             numberAccidentals = 4;
         }
 
-        unsigned int positionInCircleOfFifths();
+        unsigned int positionInCircleOfFifths()
+        {
+            unsigned int position;
+            if ( isSharpKey ) { position = numberAccidentals; }
+            else { position = 13 - numberAccidentals; }
+            std::cout << "Position in circle of fifths is: " << position << std::endl;
+            return position;
+        }
     };   
 
     Tempo tempo;  // Only UDTs as member variables.
     TimeSignature timeSignature;
     KeySignature keySignature;
 };
-
-unsigned int Song::KeySignature::positionInCircleOfFifths() 
-{
-    if ( isSharpKey ) { return numberAccidentals; }
-    return 13 - (numberAccidentals);
-}
-
 
 // 4
 
@@ -255,8 +264,14 @@ double Airplane::weightAllowedPerPassenger()
 
 struct Bicycle
 {
-    double weightKg = 7.9;
-    unsigned int size = 58; 
+    double weightKg;
+    unsigned int size; 
+
+    Bicycle()
+    {
+        weightKg = 7.9;
+        size = 58;
+    }
 
     float recommendedTirePressure( float riderWeightInLBS , float maxTirePressure );
 
@@ -270,42 +285,56 @@ struct Bicycle
 
 float Bicycle::recommendedTirePressure( float riderWeightInLBS, float maxTirePressure )
 {
-    if( riderWeightInLBS > 200 && maxTirePressure > 120 )
-    {
-        return 120;
-    }
-
-    return 100;
+    float tirePressure = 100;
+    if( riderWeightInLBS > 200 && maxTirePressure > 120 ) { tirePressure = 120; }
+    std::cout << "Recommended pressure is: " << tirePressure << std::endl;
+    return tirePressure;
 }
 
 // 7
 
 struct Keyboard
 {
-    unsigned int numberOfKeys = 73;
-    double totalWeightKg = 11.4;
-    bool isWeighted = true;
-    bool hasUSBOutput = true;
-    bool hasOnboardEffects = true;
+    unsigned int numberOfKeys;
+    double totalWeightKg;
+    bool isWeighted;
+    bool hasUSBOutput;
+    bool hasOnboardEffects;
+
+    Keyboard()
+    {
+        numberOfKeys = 73;
+        totalWeightKg = 11.4;
+        isWeighted = true;
+        hasUSBOutput = true;
+        hasOnboardEffects = true;
+    }
 };
 
 // 8
 
 struct Television
 {
-    double totalWeightKg = 22.1;
-    double widthIn = 50.5;
-    double heightIn = 30.0;
-    bool isSmartTV = true;
+    double totalWeightKg;
+    double widthIn;
+    double heightIn;
+    bool isSmartTV;
 
-    double getScreenSize();
+    Television()
+    {
+        totalWeightKg = 22.1;
+        widthIn = 50.5;
+        heightIn = 30.0;
+        isSmartTV = true;
+    }
+
+    double getScreenSize()
+    {
+        double screenSize = sqrt(pow( widthIn, 2 ) + pow( heightIn, 2 ));
+        std::cout << "Screen size is: " << screenSize << std::endl;
+        return screenSize;
+    }
 };
-
-double Television::getScreenSize()
-{
-    return pow( widthIn, 2 ) + pow( heightIn, 2 );
-}
-
 
 
 //
@@ -319,10 +348,25 @@ int main()
     //1
     House myHouse;
     myHouse.estimatedMortgagePayment(0.0425, 30, 5000.00);
+    //2
+    Job myJob;
+    myJob.monetaryValueOfBenefits();
+    //3 
+    Song mySong;
+    mySong.tempo.updateTempo( 145 );
+    mySong.keySignature.positionInCircleOfFifths();
     //4
     Circle myCircle;
     myCircle.getCircumference();
     myCircle.getArea();
-    //
+    //5
+    Airplane myAirplane;
+    myAirplane.weightAllowedPerPassenger();
+    //6
+    Bicycle myBike;
+    myBike.recommendedTirePressure(175, 110);
+    //8
+    Television myTv;
+    myTv.getScreenSize();
     std::cout << "good to go!" << std::endl;
 }
