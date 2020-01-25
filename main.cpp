@@ -176,8 +176,14 @@ unsigned int Song::KeySignature::positionInCircleOfFifths()
 
 struct Circle
 {
-    double radius = 10.0;
-    double diameter = radius * 2.0;
+    double radius;
+    double diameter;
+
+    Circle()
+    {
+        radius = 10.0;
+        diameter = radius * 2.0;
+    }
 
     double getCircumference();
     double getArea();
@@ -185,11 +191,15 @@ struct Circle
 
 double Circle::getCircumference()
 {
+    double circumference = M_PI * diameter;
+    std::cout << "Circumference is: " << circumference << std::endl;
     return M_PI * diameter;
 }
 
 double Circle::getArea()
 {
+    double area = M_PI * (pow(radius, 2));
+    std::cout << "Area is: " << area << std::endl;
     return M_PI * (pow(radius, 2));
 }
 
@@ -198,21 +208,37 @@ double Circle::getArea()
 
 struct Airplane
 {
-    double passengerCapactity = 200;
+    double passengerCapactity;
     double numberOfPassengers;
-    double maxTakeoffWeightKg = 80000.0;
+    double maxTakeoffWeightKg;
     double maxAllowableWeightForPassengers;
-    bool isCommercialAirliner = true;
+    bool isCommercialAirliner;
+
+    Airplane()
+    {
+        passengerCapactity = 200;
+        numberOfPassengers = 185;
+        maxTakeoffWeightKg = 80000.0;
+        maxAllowableWeightForPassengers = 20000.0;
+        isCommercialAirliner = true;
+    }
 
     double weightAllowedPerPassenger();
 
     struct Passenger
     {
-        double weightLbs = 175.4;
-        double weightOfLuggageLbs = 200.0;
-        unsigned int numberOfBags = 2;
+        double weightLbs;
+        double weightOfLuggageLbs;
+        unsigned int numberOfBags;
 
-        double totalWeightWithLuggageLbs(); 
+        Passenger()
+        {
+            weightLbs = 175.4;
+            weightOfLuggageLbs = 200.0;
+            numberOfBags = 2;
+        }
+
+        double totalWeightWithLuggageLbs() { return weightLbs + weightOfLuggageLbs; }
     };
 
     // Would do more with the 'Passenger' type here, maybe with an array but I'm new to C++ and don't know syntax / best practice for initializing etc.
@@ -220,7 +246,9 @@ struct Airplane
 
 double Airplane::weightAllowedPerPassenger()
 {
-    return maxAllowableWeightForPassengers / numberOfPassengers;
+    double allowableWeight = maxAllowableWeightForPassengers / numberOfPassengers;
+    std::cout << "Weight allowed per passenger: " << allowableWeight << std::endl;
+    return allowableWeight;
 }
 
 //6
@@ -288,7 +316,13 @@ double Television::getScreenSize()
 int main()
 {
     Example::main();
+    //1
     House myHouse;
     myHouse.estimatedMortgagePayment(0.0425, 30, 5000.00);
+    //4
+    Circle myCircle;
+    myCircle.getCircumference();
+    myCircle.getArea();
+    //
     std::cout << "good to go!" << std::endl;
 }
