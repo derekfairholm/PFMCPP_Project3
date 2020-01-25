@@ -26,6 +26,7 @@
  */
 
 #include <iostream>
+#include <cmath>
 namespace Example 
 {
 struct UDT  // my user defined type
@@ -55,12 +56,22 @@ int main()
 
 struct House 
 {
-    unsigned int numberOfBedrooms = 3;
-    unsigned int numberOfBathrooms = 2;
-    unsigned int totalSquareFootage = 2000;
-    double currentMarketValueUsd = 250000.00;
-    bool hasGarage = true;
-    bool availableForRent = false;
+    unsigned int numberOfBedrooms;
+    unsigned int numberOfBathrooms;
+    unsigned int totalSquareFootage;
+    double currentMarketValueUsd;
+    bool hasGarage;
+    bool availableForRent;
+
+    House()
+    {
+        numberOfBedrooms = 3;
+        numberOfBathrooms = 2;
+        totalSquareFootage = 2000;
+        currentMarketValueUsd = 250000.00;
+        hasGarage = true;
+        availableForRent = false;
+    }
 
     double estimatedMortgagePayment( double interestRate, double term, double downpaymentUsd );
 };
@@ -71,23 +82,36 @@ double House::estimatedMortgagePayment( double interestRate, double term, double
     double monthlyInterestRate = interestRate / 12;
     double totalNumberOfPayments = term * 12;
 
-    double blockOne = pow((monthlyInterestRate * (1 + monthlyInterestRate)), totalNumberOfPayments);
-    double blockTwo = (pow((1 + monthlyInterestRate), totalNumberOfPayments)) - 1;
+    double estimate = (principalLoanAmount * monthlyInterestRate) / (1 - pow(1 + monthlyInterestRate, -totalNumberOfPayments));
 
-    return principalLoanAmount * (blockOne * blockTwo);
+    std::cout << "Estimated mortgage payment: $" << estimate << std::endl;
+
+    return estimate;
 }
 
 // 2
 
 struct Job
 {
-    double startingSalaryUsd = 70000.00;
-    bool canWorkRemotely = false;
+    double startingSalaryUsd;
+    bool canWorkRemotely;
+
+    Job() 
+    {
+        startingSalaryUsd = 70000.00;
+        canWorkRemotely = false;
+    }
     
     struct EmployeeBenefit
     {
         double monetaryValue;
         bool isActiveBenefit;
+
+        EmployeeBenefit() 
+        {
+            monetaryValue = 2500.00;
+            isActiveBenefit = true;
+        }
     };
 
     double monetaryValueOfBenefits( EmployeeBenefit benefits[] );
@@ -95,32 +119,31 @@ struct Job
     EmployeeBenefit employeeBenefit[3] = {};
 };
 
-double Job::monetaryValueOfBenefits( EmployeeBenefit benefits[] )
-{
-    double totalValue;
-
-    totalValue = benefits[0].monetaryValue + benefits[1].monetaryValue + benefits[0].monetaryValue;
-    // Here I would iterate through the 'benefits' array and call totalValue += benefit[i].monetaryValue after checking benefit[i].isActiveBenefit.
-
-    return totalValue;
-}
-
 // 3
 
 struct Song 
 {
     struct Tempo
     {
-        unsigned int BPM = 120;
+        unsigned int BPM;
 
-        void updateTempo( unsigned int newTempo );
+        Tempo() { BPM = 120; }
+
+        void updateTempo( unsigned int newTempo ) { BPM = newTempo; }
     };
 
     struct TimeSignature
     {
-        unsigned int topNumber = 4;
-        unsigned int bottomNumber = 4;
-        bool isCompund = false;
+        unsigned int topNumber;
+        unsigned int bottomNumber;
+        bool isCompund;
+
+        TimeSignature()
+        {
+            topNumber = 4;
+            bottomNumber = 4;
+            isCompund = false;
+        }
     };
 
     struct KeySignature
@@ -135,11 +158,6 @@ struct Song
     TimeSignature timeSignature;
     KeySignature keySignature;
 };
-
-void Song::Tempo::updateTempo( unsigned int newTempo )
-{
-
-}
 
 unsigned int Song::KeySignature::positionInCircleOfFifths() 
 {
@@ -263,5 +281,7 @@ double Television::getScreenSize()
 int main()
 {
     Example::main();
+    House myHouse;
+    myHouse.estimatedMortgagePayment(0.0425, 30, 5000.00);
     std::cout << "good to go!" << std::endl;
 }
