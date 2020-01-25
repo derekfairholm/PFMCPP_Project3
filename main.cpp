@@ -148,8 +148,14 @@ struct Song
 
     struct KeySignature
     {
-        unsigned int numberSharps = 1;
-        unsigned int numberFlats = 0;
+        bool isSharpKey;
+        unsigned int numberAccidentals;
+
+        KeySignature()
+        {
+            isSharpKey = false;
+            numberAccidentals = 4;
+        }
 
         unsigned int positionInCircleOfFifths();
     };   
@@ -161,7 +167,8 @@ struct Song
 
 unsigned int Song::KeySignature::positionInCircleOfFifths() 
 {
-    return {};
+    if ( isSharpKey ) { return numberAccidentals; }
+    return 13 - (numberAccidentals);
 }
 
 
