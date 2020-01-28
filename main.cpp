@@ -48,25 +48,28 @@ int main()
 
 struct House 
 {
-    unsigned int numberOfBedrooms;
-    unsigned int numberOfBathrooms;
+    House();
+    unsigned int numberOfBedrooms { 3 };
+    unsigned int numberOfBathrooms { 2 };
     unsigned int totalSquareFootage;
     double currentMarketValueUsd;
     bool hasGarage;
     bool availableForRent;
 
-    House()
-    {
-        numberOfBedrooms = 3;
-        numberOfBathrooms = 2;
-        totalSquareFootage = 2000;
-        currentMarketValueUsd = 250000.00;
-        hasGarage = true;
-        availableForRent = false;
+    void numberBedsAndBaths() 
+    { 
+        std::cout << "This house has " << numberOfBedrooms << " bedrooms and " << numberOfBathrooms << " bathrooms." << std::endl;
     }
-
     double estimatedMortgagePayment( double interestRate, double term, double downpaymentUsd );
 };
+
+House::House() :
+totalSquareFootage(2000),
+currentMarketValueUsd(250000.00)
+{
+    hasGarage = true;
+    availableForRent = false;
+}
 
 double House::estimatedMortgagePayment( double interestRate, double term, double downpaymentUsd )
 {
@@ -85,25 +88,18 @@ double House::estimatedMortgagePayment( double interestRate, double term, double
 
 struct Job
 {
-    double startingSalaryUsd;
-    bool canWorkRemotely;
-
-    Job() 
-    {
-        startingSalaryUsd = 70000.00;
-        canWorkRemotely = false;
-    }
+    double startingSalaryUsd { 70000 };
+    bool canWorkRemotely = true;
     
     struct EmployeeBenefit
     {
         double monetaryValue;
         bool isActiveBenefit;
 
-        EmployeeBenefit() 
-        {
-            monetaryValue = 2500.00;
-            isActiveBenefit = true;
-        }
+        EmployeeBenefit() :
+        monetaryValue(2500.00),
+        isActiveBenefit(true)
+        { }
     };
 
     double monetaryValueOfBenefits()
@@ -124,7 +120,7 @@ struct Song
     {
         unsigned int BPM;
 
-        Tempo() { BPM = 120; }
+        Tempo() : BPM(120) { }
 
         void updateTempo( unsigned int newTempo ) 
         { 
@@ -137,33 +133,24 @@ struct Song
     {
         unsigned int topNumber;
         unsigned int bottomNumber;
-        bool isCompund;
+        bool isCompund = false;
 
-        TimeSignature()
-        {
-            topNumber = 4;
-            bottomNumber = 4;
-            isCompund = false;
-        }
+        TimeSignature() : topNumber(4), bottomNumber(4) { }
     };
 
     struct KeySignature
     {
-        bool isSharpKey;
+        bool isSharpKey { false };
         unsigned int numberAccidentals;
 
-        KeySignature()
-        {
-            isSharpKey = false;
-            numberAccidentals = 4;
-        }
+        KeySignature() : numberAccidentals(4) { }
 
         unsigned int positionInCircleOfFifths()
         {
             unsigned int position;
             if ( isSharpKey ) { position = numberAccidentals; }
             else { position = 13 - numberAccidentals; }
-            std::cout << "Position in circle of fifths is: " << position << std::endl;
+            std::cout << "This key has " << numberAccidentals << " accidentals and is in position number " << position << " in the circle of fifths." << std::endl;
             return position;
         }
     };   
@@ -180,20 +167,18 @@ struct Circle
     double radius;
     double diameter;
 
-    Circle()
-    {
-        radius = 10.0;
-        diameter = radius * 2.0;
-    }
+    Circle();
 
     double getCircumference();
     double getArea();
 };
 
+Circle::Circle() : radius(10.0) { diameter = radius * 2.0; }
+
 double Circle::getCircumference()
 {
     double circumference = M_PI * diameter;
-    std::cout << "Circumference is: " << circumference << std::endl;
+    std::cout << "The diameter is: " << diameter << " and the circumference is: " << circumference << std::endl;
     return M_PI * diameter;
 }
 
@@ -209,37 +194,30 @@ double Circle::getArea()
 
 struct Airplane
 {
-    double passengerCapactity;
-    double numberOfPassengers;
-    double maxTakeoffWeightKg;
-    double maxAllowableWeightForPassengers;
+    double passengerCapactity { 200 };
+    double numberOfPassengers { 185 };
+    double maxTakeoffWeightKg { 80000.0 };
+    double maxAllowableWeightForPassengers { 20000.0 };
     bool isCommercialAirliner;
 
-    Airplane()
-    {
-        passengerCapactity = 200;
-        numberOfPassengers = 185;
-        maxTakeoffWeightKg = 80000.0;
-        maxAllowableWeightForPassengers = 20000.0;
-        isCommercialAirliner = true;
-    }
+    Airplane() : isCommercialAirliner(true) { }
 
     double weightAllowedPerPassenger();
 
     struct Passenger
     {
-        double weightLbs;
-        double weightOfLuggageLbs;
+        double weightLbs { 175.4 };
+        double weightOfLuggageLbs { 200.0 };
         unsigned int numberOfBags;
 
-        Passenger()
-        {
-            weightLbs = 175.4;
-            weightOfLuggageLbs = 200.0;
-            numberOfBags = 2;
-        }
+        Passenger() : numberOfBags(2) { }
 
-        double totalWeightWithLuggageLbs() { return weightLbs + weightOfLuggageLbs; }
+        double totalWeightWithLuggageLbs() 
+        { 
+            double totalWeight = weightLbs + weightOfLuggageLbs;
+            std::cout << "The total weight of this passenger is: " << totalWeight <<  " Lbs" << std::endl;
+            return totalWeight; 
+        }
     };
 
     // Would do more with the 'Passenger' type here, maybe with an array but I'm new to C++ and don't know syntax / best practice for initializing etc.
@@ -257,14 +235,11 @@ double Airplane::weightAllowedPerPassenger()
 struct Bicycle
 {
     double weightKg;
-    unsigned int size; 
+    unsigned int size { 58 }; 
 
-    Bicycle()
-    {
-        weightKg = 7.9;
-        size = 58;
-    }
+    Bicycle() : weightKg(7.9) { }
 
+    void bikeSpecs() { std::cout << "This bike weighs " <<  weightKg << " kg and is a size "  << size << std::endl; }
     float recommendedTirePressure( float riderWeightInLBS , float maxTirePressure );
 
     enum BicycleType
@@ -289,41 +264,31 @@ struct Keyboard
 {
     unsigned int numberOfKeys;
     double totalWeightKg;
-    bool isWeighted;
-    bool hasUSBOutput;
-    bool hasOnboardEffects;
+    bool isWeighted = true;
+    bool hasUSBOutput = true;
+    bool hasOnboardEffects = true;
 
-    Keyboard()
-    {
-        numberOfKeys = 73;
-        totalWeightKg = 11.4;
-        isWeighted = true;
-        hasUSBOutput = true;
-        hasOnboardEffects = true;
-    }
+    Keyboard();
 };
+
+Keyboard::Keyboard() : numberOfKeys(73), totalWeightKg(11.4) { }
 
 // 8
 
 struct Television
 {
-    double totalWeightKg;
-    double widthIn;
-    double heightIn;
+    double totalWeightKg { 22.1 };
+    double widthIn { 50.5 };
+    double heightIn { 30.0 };
     bool isSmartTV;
 
-    Television()
-    {
-        totalWeightKg = 22.1;
-        widthIn = 50.5;
-        heightIn = 30.0;
-        isSmartTV = true;
-    }
+    Television() : isSmartTV(true) { }
 
     double getScreenSize()
     {
         double screenSize = sqrt(pow( widthIn, 2 ) + pow( heightIn, 2 ));
-        std::cout << "Screen size is: " << screenSize << std::endl;
+        std::cout << "This TV has a width / height of: " << widthIn << " by " << heightIn << " inches" << std::endl;
+        std::cout << "The screen size is: " << screenSize << " inches" << std::endl;
         return screenSize;
     }
 };
@@ -340,6 +305,7 @@ int main()
     //1
     House myHouse;
     myHouse.estimatedMortgagePayment(0.0425, 30, 5000.00);
+    myHouse.numberBedsAndBaths();
     //2
     Job myJob;
     myJob.monetaryValueOfBenefits();
@@ -354,8 +320,11 @@ int main()
     //5
     Airplane myAirplane;
     myAirplane.weightAllowedPerPassenger();
+    Airplane::Passenger myPassenger;
+    myPassenger.totalWeightWithLuggageLbs();
     //6
     Bicycle myBike;
+    myBike.bikeSpecs();
     myBike.recommendedTirePressure(175, 110);
     //8
     Television myTv;
