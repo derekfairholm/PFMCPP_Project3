@@ -71,6 +71,7 @@ int main()
 
 #include <iostream>
 #include <cmath>
+#include <string>
 
 //1
 
@@ -89,6 +90,18 @@ struct House
         std::cout << "This house has " << numberOfBedrooms << " bedrooms and " << numberOfBathrooms << " bathrooms." << std::endl;
     }
     double estimatedMortgagePayment( double interestRate, double term, double downpaymentUsd );
+
+    // Part 5
+    double projectedValue( int yearsFromCurrentDate, double annualGrowthPercantage )
+    {
+        double projectedValue = currentMarketValueUsd;
+        for( int i = 0; i < yearsFromCurrentDate; i += 1 )
+        {
+            projectedValue += currentMarketValueUsd * annualGrowthPercantage;
+        }
+        std::cout << "In " << yearsFromCurrentDate << " years, the value of this home will have gone from $" << currentMarketValueUsd << " to $" << projectedValue << " assuming a " << (annualGrowthPercantage * 100) << " percent annual growth in value." << std::endl;
+        return projectedValue;
+    }
 };
 
 House::House() :
@@ -124,20 +137,26 @@ struct Job
         double monetaryValue;
         bool isActiveBenefit;
 
-        EmployeeBenefit() :
-        monetaryValue(2500.00),
+        EmployeeBenefit( double value ) :
+        monetaryValue(value),
         isActiveBenefit(true)
         { }
     };
 
+    // Part 5
     double monetaryValueOfBenefits()
     {
-        double value = employeeBenefits[0].monetaryValue;
+        double value = 0;
+
+        for( int i = 0; i < 3; i ++ )
+        {
+            value += employeeBenefits[i].monetaryValue;
+        }
         std::cout << "Value of benefits is: $" << value << std::endl;
         return value;
     }
 
-    EmployeeBenefit employeeBenefits[1] = { EmployeeBenefit() };
+    EmployeeBenefit employeeBenefits[3] = { EmployeeBenefit(2500), EmployeeBenefit(5000), EmployeeBenefit(1500) };
 };
 
 // 3
@@ -148,7 +167,7 @@ struct Song
     {
         unsigned int BPM;
 
-        Tempo() : BPM(120) { }
+        Tempo( unsigned int BPM_ ) : BPM(BPM_) { }
 
         void updateTempo( unsigned int newTempo ) 
         { 
@@ -183,9 +202,29 @@ struct Song
         }
     };   
 
-    Tempo tempo;  // Only UDTs as member variables.
     TimeSignature timeSignature;
     KeySignature keySignature;
+
+    // Part 5
+    bool incrementTempo( unsigned int currentTempo, unsigned int targetTempo )
+    {
+        bool didFinishIncrementing = false; 
+        Tempo tempo(currentTempo);
+        std::cout << "The current tempo is: " << currentTempo << std::endl;
+
+        while ( currentTempo < targetTempo )
+        {
+            currentTempo ++;
+
+            if ( currentTempo == targetTempo ) 
+            {  
+                didFinishIncrementing = true;
+                std::cout << "The tempo is now: " << currentTempo << std::endl;
+                return didFinishIncrementing;
+            }
+        }
+        return didFinishIncrementing;
+    }
 };
 
 // 4
@@ -195,13 +234,31 @@ struct Circle
     double radius;
     double diameter;
 
-    Circle();
+    Circle( double r ) : radius(r) { diameter = radius * 2.0; }
 
     double getCircumference();
     double getArea();
-};
 
-Circle::Circle() : radius(10.0) { diameter = radius * 2.0; }
+    void drawCircle()
+    {
+        std::cout << "Drawing new circle with radius: " << radius << std::endl;
+        // A hypothetical function that would render a circle with a given radius.
+    }
+
+    // Part 5
+    void drawConcentricCircles( double startingRadius, double maxRadius, double numberOfCircles )
+    {
+        double currentRadius = startingRadius;
+        double increment = (maxRadius - startingRadius) / (numberOfCircles - 1.0);
+
+        while ( currentRadius <= maxRadius + 0.0001 )
+        {
+            Circle c(currentRadius);
+            c.drawCircle();
+            currentRadius += increment;
+        }
+    }
+};
 
 double Circle::getCircumference()
 {
@@ -219,13 +276,13 @@ double Circle::getArea()
 
 
 // 5
-
+#include <vector>
 struct Airplane
 {
-    double passengerCapactity { 200 };
-    double numberOfPassengers { 185 };
-    double maxTakeoffWeightKg { 80000.0 };
-    double maxAllowableWeightForPassengers { 20000.0 };
+    double passengerCapactity { 8 };
+    unsigned int numberOfPassengers { 5 };
+    double maxTakeoffWeightKg { 20000.0 };
+    double maxAllowableWeightForPassengers { 1500.0 };
     bool isCommercialAirliner;
 
     Airplane() : isCommercialAirliner(true) { }
@@ -234,29 +291,50 @@ struct Airplane
 
     struct Passenger
     {
-        double weightLbs { 175.4 };
-        double weightOfLuggageLbs { 200.0 };
+        std::string name;
+        double weightLbs;
+        double weightOfLuggageLbs;
         unsigned int numberOfBags;
 
-        Passenger() : numberOfBags(2) { }
+        Passenger( std::string name_, double weightLbs_, double weightOfLuggageLbs_ ) : 
+        name(name_),
+        weightLbs(weightLbs_), 
+        weightOfLuggageLbs(weightOfLuggageLbs_),
+        numberOfBags(2) 
+        { }
 
-        double totalWeightWithLuggageLbs() 
-        { 
-            double totalWeight = weightLbs + weightOfLuggageLbs;
-            std::cout << "The total weight of this passenger is: " << totalWeight <<  " Lbs" << std::endl;
-            return totalWeight; 
-        }
+        Passenger() : Passenger("default", 0, 0) { } //calls the above constructor
+
+        double totalWeightWithLuggageLbs() { return weightLbs + weightOfLuggageLbs; }
     };
 
-    // Would do more with the 'Passenger' type here, maybe with an array but I'm new to C++ and don't know syntax / best practice for initializing etc.
+    std::vector<Passenger> passengers
+    { 
+        Passenger("John L.", 175.5, 55.0), 
+        Passenger("Phil W.", 223.1, 154.2), 
+        Passenger("Sharon C.", 120.7, 25.9),
+        Passenger("Scott S.", 201.2, 66.0),
+        Passenger("Lisa J.", 115.3, 77.8),
+        {}
+    };
+    
+    // Part 5
+    Passenger scanForPassengersAboveWeightThreshold()
+    {
+        for( auto& passenger : passengers ) //loops over every passenger in the vector
+        {
+            if(passenger.totalWeightWithLuggageLbs() > weightAllowedPerPassenger()) 
+            { 
+                return passenger; 
+            }
+        }
+        // Would like to return null here but not sure how.
+        std::cout << "Passengers are below weight threshold" << std::endl;
+        return { };
+    }
 };
 
-double Airplane::weightAllowedPerPassenger()
-{
-    double allowableWeight = maxAllowableWeightForPassengers / numberOfPassengers;
-    std::cout << "Weight allowed per passenger: " << allowableWeight << std::endl;
-    return allowableWeight;
-}
+double Airplane::weightAllowedPerPassenger() { return maxAllowableWeightForPassengers / double(numberOfPassengers); }
 
 //6
 
@@ -331,31 +409,29 @@ int main()
 {
     Example::main();
     //1
+    std::cout << "-----------UTD: House---------------" << std::endl;
     House myHouse;
-    myHouse.estimatedMortgagePayment(0.0425, 30, 5000.00);
-    myHouse.numberBedsAndBaths();
+    myHouse.projectedValue(5, 0.05);
     //2
+    std::cout << "-----------UTD: Job---------------" << std::endl;
     Job myJob;
     myJob.monetaryValueOfBenefits();
     //3 
+    std::cout << "-----------UTD: Song---------------" << std::endl;
     Song mySong;
-    mySong.tempo.updateTempo( 145 );
-    mySong.keySignature.positionInCircleOfFifths();
+    mySong.incrementTempo( 80, 175 );
     //4
-    Circle myCircle;
-    myCircle.getCircumference();
-    myCircle.getArea();
+    std::cout << "-----------UTD: Circle---------------" << std::endl;
+    Circle myCircle(5);
+    myCircle.drawConcentricCircles( myCircle.radius, 25, 5 );
     //5
+    std::cout << "-----------UTD: Airplane---------------" << std::endl;
     Airplane myAirplane;
-    myAirplane.weightAllowedPerPassenger();
-    Airplane::Passenger myPassenger;
-    myPassenger.totalWeightWithLuggageLbs();
+    std::cout << "Warning: Passenger above max total weight: " << myAirplane.scanForPassengersAboveWeightThreshold().name << std::endl;
     //6
     Bicycle myBike;
-    myBike.bikeSpecs();
-    myBike.recommendedTirePressure(175, 110);
     //8
     Television myTv;
-    myTv.getScreenSize();
+    //
     std::cout << "good to go!" << std::endl;
 }
