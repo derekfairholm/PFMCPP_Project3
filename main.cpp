@@ -276,7 +276,7 @@ double Circle::getArea()
 
 
 // 5
-
+#include <vector>
 struct Airplane
 {
     double passengerCapactity { 8 };
@@ -303,25 +303,34 @@ struct Airplane
         numberOfBags(2) 
         { }
 
+        Passenger() : Passenger("default", 0, 0) { } //calls the above constructor
+
         double totalWeightWithLuggageLbs() { return weightLbs + weightOfLuggageLbs; }
     };
 
-    Passenger passengers[5] = 
+    std::vector<Passenger> passengers
     { 
         Passenger("John L.", 175.5, 55.0), 
         Passenger("Phil W.", 223.1, 154.2), 
         Passenger("Sharon C.", 120.7, 25.9),
         Passenger("Scott S.", 201.2, 66.0),
-        Passenger("Lisa J.", 115.3, 77.8) 
+        Passenger("Lisa J.", 115.3, 77.8),
+        {}
     };
     
+    // Part 5
     Passenger scanForPassengersAboveWeightThreshold()
     {
-        for( int i = 0; i < 5; i++ )
+        for( auto& passenger : passengers ) //loops over every passenger in the vector
         {
-            if(passengers[i].totalWeightWithLuggageLbs() > weightAllowedPerPassenger()) { return passengers[i]; }
+            if(passenger.totalWeightWithLuggageLbs() > weightAllowedPerPassenger()) 
+            { 
+                return passenger; 
+            }
         }
         // Would like to return null here but not sure how.
+        std::cout << "Passengers are below weight threshold" << std::endl;
+        return { };
     }
 };
 
